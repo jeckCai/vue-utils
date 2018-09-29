@@ -1,0 +1,142 @@
+/* 全局样式 */
+body,html{
+  font-family: -apple-system,BlinkMacSystemFont,"PingFang SC","Helvetica Neue",STHeiti,"Microsoft Yahei",Tahoma,Simsun,sans-serif;
+}
+iframe {
+  height: 0;
+  width: 0;
+  border-width: 0;
+  display: none;
+}
+
+.full-screen {
+  width: 100vw;
+  height: 100vh;
+}
+
+.overflow-scrolling {
+  -webkit-overflow-scrolling: touch;
+}
+
+.text-ellipsis {
+  word-break: keep-all;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+/* text-align */
+.text-center {
+  text-align: center;
+}
+
+.text-left {
+  text-align: left;
+}
+
+.text-right {
+  text-align: right;
+}
+/* text-align */
+
+/* font */
+.font-bold {
+  font-weight: bold;
+}
+
+.font-size-0 {
+  font-size: 0;
+}
+/* font */
+
+.flex {
+  display: flex;
+}
+
+.flex-1 {
+  flex: 1;
+}
+
+.w-100 {
+  width: 100%;
+}
+
+.h-100 {
+  height: 100%;
+}
+
+/* margin */
+.margin-10 {
+  margin: 10px;
+}
+
+.mr-t-10 {
+  margin-top: 10px;
+}
+
+.mr-t-20 {
+  margin-top: 20px;
+}
+
+.mr-b-10 {
+  margin-bottom: 10px;
+}
+
+.mr-b-20 {
+  margin-bottom: 20px;
+}
+
+.mr-l-10 {
+  margin-left: 10px;
+}
+
+.mr-l-20 {
+  margin-left: 20px;
+}
+
+.mr-r-10 {
+  margin-right: 10px;
+}
+
+.mr-r-20 {
+  margin-right: 20px;
+}
+/* margin */
+
+/* padding */
+.padding-10 {
+  padding: 10px;
+}
+
+.pd-t-10 {
+  padding-top: 10px;
+}
+
+.pd-t-20 {
+  padding-top: 20px;
+}
+
+.pd-b-10 {
+  padding-bottom: 10px;
+}
+
+.pd-b-20 {
+  padding-bottom: 20px;
+}
+
+.pd-l-10 {
+  padding-left: 10px;
+}
+
+.pd-l-20 {
+  padding-left: 20px;
+}
+
+.pd-r-10 {
+  padding-right: 10px;
+}
+
+.pd-r-20 {
+  padding-right: 20px;
+}
+/* padding */

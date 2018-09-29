@@ -1,0 +1,9 @@
+@mixin multi-ellipsis($num) {
+  display: -webkit-box;
+  overflow: hidden;
+  white-space: normal !important;
+  text-overflow: ellipsis;
+  word-wrap: break-word;
+  -webkit-line-clamp: $num;
+  -webkit-box-orient: vertical;
+}
