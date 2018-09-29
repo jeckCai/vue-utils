@@ -455,15 +455,16 @@
 .address-content {
     position: relative;
     width: 100%;
-    height: 100%;
+    height: 90%;
     overflow: hidden;
     /*加载中*/
 }
 .address-content ul {
     display: block;
     width: 100%;
-    height: 100%;
-    overflow-y: auto;
+    height: 90%;
+    overflow-y: scroll;
+    -webkit-overflow-scrolling : touch;
     padding-top: 8px;
     padding-bottom: 88px;
 }
