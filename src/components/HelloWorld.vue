@@ -1,6 +1,7 @@
 <template>
   <div class="hello text-center">
     <h1>{{ msg }}</h1>
+    
     <button @click="show">alert</button><button @click="show1">confirm</button>
     <button @click="loading">loading</button>
     <button @click="loading_close">close</button>
@@ -63,6 +64,9 @@ export default {
     },
     loading_close() {
       puhui.loading.close();
+    },
+    DdnowLoad(){
+      puhui.AdownLoad()
     }
   }
 };

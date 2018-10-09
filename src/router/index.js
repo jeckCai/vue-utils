@@ -11,8 +11,8 @@ const router = new Router({
 });
 
 router.beforeEach((to, from, next) => {
-  console.log(to.name + '----' + JSON.stringify(from));
-  store.dispatch('getUserInfo').then(rps=>{console.log(rps)});
+  // console.log(to.name + '----' + JSON.stringify(from));
+  // store.dispatch('getUserInfo').then(rps=>{console.log(rps)});
   next();
   
 });

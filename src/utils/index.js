@@ -1,47 +1,9 @@
 
 import IosSelect  from 'iosselect';
 import cityResult from './city';
+import Clipboard from 'clipboard';
 
-/*识别设备*/
-export function getPlatformInfo() {
-  var agent = navigator.userAgent.toLowerCase();
-  var device = {};
-  if (agent.match(/MicroMessenger/i) == 'micromessenger') {
-    device.app = 'weixin'; /*在微信中打开*/
-  } else if (agent.match(/QQ\//i) == 'qq/') {
-    device.app = 'qq'; /*在QQ打开*/
-  } else if (agent.match(/WeiBo/i) == 'weibo') {
-    device.app = 'weibo'; /*在新浪微博客户端打开*/
-  } else if (agent.match(/x10/i) == 'x10') {
-    device.app = 'x10'; /*特定的平板*/
-  }
 
-  if (agent.indexOf('android') != -1) {
-    device.platform = 'Android';
-  } else if (agent.indexOf('iphone') != -1) {
-    device.platform = 'iOS';
-  } else if (agent.indexOf('x10') != -1) {
-    device.platform = 'x10';
-  }
-
-  return device;
-}
-
-export function setLocalStorage(key, value) {
-  return localStorage.setItem('puhui' + '-' + key, JSON.stringify(value))
-}
-
-export function getLocalStorage(key) {
-  let json = localStorage.getItem('puhui' + '-' + key)
-  if (!json || json == 'undefined') {
-      return '';
-  }
-  return JSON.parse(json)
-}
-
-export function removeLocalStorage(key) {
-  return localStorage.removeItem('puhui' + '-' + key)
-};
 // 省份列表
 const puhui={
   /**
@@ -338,14 +300,20 @@ const puhui={
         div.innerHTML = tpl;
         document.body.appendChild(div);
       };
+      let province =document.querySelector('#province');
+      let lastarea = document.querySelector('#lastarea');
+      let lastprovince = document.querySelector('#lastprovince');
+      let lastcity = document.querySelector('#lastcity');
+      let cityNode = document.querySelector('#city');
+      let areaNode= document.querySelector('#area')
       //初始化，获取第一级数据展示
       function init(){
         let datas = cityResult,_li='';
         datas.map(function(item,idx){
           _li += `<li data-index='${idx}' data-id='${item.id}' class='${optins.provinceCode==item.id ?'active':' '}'>${item.value}</li>`;
         })
-        document.querySelector('#province').innerHTML=_li;
-        document.querySelector('#province').style='display:block';
+        province.innerHTML=_li;
+        province.style='display:block';
         document.querySelectorAll('#province li').forEach((item)=>{
           if (optins && optins.cityCode) {
             if(item.className=='active'){
@@ -358,10 +326,10 @@ const puhui={
           }
         });
         if (optins.provinceCode){
-          document.querySelector('#lastarea').className = 'active';
+          lastarea.className = 'active';
         }else{
-          document.querySelector('#lastprovince').className = 'active';
-        }
+          lastprovince.className = 'active';
+        };
         
         document.querySelectorAll('.selected-address li').forEach((item)=>{
           item.onclick=function(){
@@ -370,7 +338,8 @@ const puhui={
             tipClick(item);
           }
         })
-      }
+      }; 
+      // 动画延时bug
       setTimeout(() => {
         init(opts);
       }, 300);
@@ -379,21 +348,20 @@ const puhui={
        
         clearAction(evt);
         evt.className='active';
-        document.querySelector('#lastcity').className ='active';
-        document.querySelector('#lastprovince').className = '';
-        document.querySelector('#lastprovince').innerText = evt.innerText;
+        lastcity.className ='active';
+        lastprovince.className = '';
+        lastprovince.innerText = evt.innerText;
         let datas = cityResult[_idx].children,_li='';
         datas.map((item,idx)=>{
-          console.log(item);
           _li += `<li data-index="${idx}" data-id="${item.id}" class='${optins.cityCode==item.id? 'active':''}'>${item.value}</li>`;
-          document.querySelector('#city').innerHTML=_li;
-          document.querySelector('#city').style = 'display:block';
-          document.querySelector('#province').style = 'display:none';
+          cityNode.innerHTML=_li;
+          cityNode.style = 'display:block';
+          province.style = 'display:none';
         });
         
         document.querySelectorAll('#city li').forEach((item,idx)=>{
           if (optins.cityCode){
-            clearAction(document.querySelector('#lastprovince'));
+            clearAction(lastprovince);
             if(item.className=='active'){
               city(_idx, item.getAttribute('data-index'), item);
             }
@@ -406,22 +374,22 @@ const puhui={
       };
       //市区
       function city(_paresidx,_idx,evt){
-        document.querySelector('#lastarea').className = 'active';
-        document.querySelector('#lastcity').className = 'lastarea';
+        lastarea.className = 'active';
+        lastcity.className = 'lastarea';
         clearAction(evt);
         evt.className='active';
-        document.querySelector('#lastcity').innerText = evt.innerText;
+        lastcity.innerText = evt.innerText;
         let areaList = cityResult[_paresidx].children[_idx].children,_li='';
         if (!areaList) return;
         areaList.forEach((item,idx)=>{
           _li += `<li data-index=${idx} data-id=${item.id} class="${optins.areaCode == item.id ?'active':''}">${item.value}</li>`;
-          document.querySelector('#area').innerHTML = _li;
-          document.querySelector('#city').style = 'display:none';
-          document.querySelector('#area').style = 'display:block';
+          areaNode.innerHTML = _li;
+          cityNode.style = 'display:none';
+          areaNode.style = 'display:block';
         });
         document.querySelectorAll('#area li').forEach((item, idx) => {
           if (optins.areaCode){
-            clearAction(document.querySelector('#lastprovince'));
+            clearAction(lastprovince);
           }
           item.onclick = function () {
             area(_idx, item.getAttribute('data-index'), item);
@@ -433,8 +401,8 @@ const puhui={
       function area(_paresidx,_idx,evt){
         clearAction(evt);
         evt.className = 'active';
-        document.querySelector('#lastarea').className = 'lastarea';
-        document.querySelector('#lastarea').innerText = evt.innerText;
+        lastarea.className = 'lastarea';
+        lastarea.innerText = evt.innerText;
         list = listData(evt);
         if (optins.provinceCode){
           
@@ -497,7 +465,7 @@ const puhui={
           }
           
         }
-      }
+      };
     })
   },
   /**
@@ -512,23 +480,18 @@ const puhui={
    * }
   
    */ 
-  picker:function(optins){
-    
-    let opt = optins, list = [], _echo = {}, selectOpts={};
+  picker:function(optins){    
+    let opt = optins, list = [], _echo = {};
     opt.leve == 2 ? list = [opt.data1, opt.data2] : opt.leve == 3 ? list = [opt.data1, opt.data2, opt.data3] : list = [opt.data1];
     if(optins.listData){
       _echo =optins.listData;
-    };
-
-    if(opt.type==2){
-      selectOpts.relation=[1,1];
     };
     return  selectPicker();
     function selectPicker(){
       return new Promise(resolve=>{
         new IosSelect(optins.leve, list, {
           itemHeight: 50,
-          itemShowCount: 3,
+          itemShowCount: 5,
           showAnimate: true,
           oneLevelId: _echo.oneLeveId,
           twoLevelId: _echo.twoLeveId,
@@ -645,9 +608,151 @@ const puhui={
         });
     })
   },
+  /**
+   * 下载，通过HTML5 download属性
+   * opts.url,
+   * opts.id
+   */ 
+  AdownLoad:function(opts){
+   return new Promise((resolve,reject)=>{
+     var aLink = document.createElement("a");
+     aLink.download = '';
+     aLink.href = opts.url;
+     let isSupportDownload = 'download' in document.createElement('a');
+     if (isSupportDownload){
+       if (document.createEvent) {
+         var e = document.createEvent('MouseEvents');
+         e.initEvent('click', true, true);
+         aLink.dispatchEvent(e);
+         resolve(true)
+       } else if (aLink.fireEvent) {
+         aLink.fireEvent('onclick');
+         resolve(true)
+       } else {
+         reject('不支持下载')
+       }
+     }else{
+       return this.toast('系统不支持,请长按保存！');
+     }
+    
+   }) 
+  },
+  /**
+   * 剪切板
+   * data:需要复制的数据
+   */ 
+  copyBoard:function(data){
+    if(!document.querySelector('#copyBtn')){
+      let div = `<button id="copyBtn"></button>`;
+      let aCopy = document.createElement('div');
+      aCopy.id = 'copyboard';
+      aCopy.style = 'display:none';
+      aCopy.innerHTML = div;
+      document.body.appendChild(aCopy);
+    }
+    let btnLink=document.querySelector('#copyBtn');
+    let copy = new Clipboard('#copyBtn', {
+      text: function () {
+        return data
+      }
+    });
+    function remove(){
+      document.body.removeChild(document.getElementById('copyboard'));
+    };
+    function ready(){
+      if (document.createEvent) {
+        var e = document.createEvent('MouseEvents');
+        e.initEvent('click', true, true);
+        btnLink.dispatchEvent(e);
+        remove();
+      } else if (btnLink.fireEvent) {
+        btnLink.fireEvent('onclick');
+        remove();
+      };
+    };
+    // 延时处理合成事件触发bug
+    setTimeout(() => {
+      ready();
+    }, 300);
+    return new Promise((resolve,reject)=>{
+      copy.on('success', e => {
+        this.toast('复制成功！')
+        resolve(true);
+      });
+      copy.on('error', e => {
+        reject('复制失败');
+      });
+    })
+    
+    
+  },
+  /**
+   * 系统拍照
+   */ 
+  camearVideo:function(callback){
+    let div = document.createElement('div'), a = `<span class='videoClose'>X</span><label class="ui-upload">选择媒体<input type="file" id="take-picture" accept="video/*" style="display:none"></label> <img src="about:blank" alt="" id="show-picture">`;
+    div.id='picture_div';
+    div.innerHTML=a;
+    document.body.appendChild(div);
+    document.querySelector('.videoClose').addEventListener('click', function (event) {
+      document.body.removeChild(document.querySelector('#picture_div'));
+    });
+    
+      setTimeout(function(){
+        (function () {
+          let takePicture = document.querySelector("#take-picture"),
+            showPicture = document.querySelector("#show-picture");
+
+          if (takePicture && showPicture) {
+            if (document.createEvent) {
+              var e = document.createEvent('MouseEvents');
+              e.initEvent('onchange', true, true);
+              takePicture.dispatchEvent(e);
+              
+            } else if (takePicture.fireEvent) {
+              takePicture.fireEvent('onchange');
+            
+            };
+            takePicture.addEventListener('change',(event)=>{
+                let files = event.target.files,
+                  file;
+                if (files && files.length > 0) {
+                  file = files[0];
+                  try {
+                    let URL = window.URL || window.webkitURL;
+                    let imgURL = URL.createObjectURL(file);
+
+                    // img图片显示imgURL也可以用一个video来显示
+                    showPicture.src = imgURL;
+                    callback({file:file,src:imgURL});
+                    // 加载完销毁
+                    showPicture.onload = function () {
+                      URL.revokeObjectURL(imgURL);
+                    };
+                  }
+                  catch (e) {
+                    try {
+                      // 不支持 createObjectURL
+                      var fileReader = new FileReader();
+                      fileReader.onload = function (event) {
+                        showPicture.src = event.target.result;
+                      };
+                      fileReader.readAsDataURL(file);
+                    }
+                    catch (e) {
+                      console.log('浏览器不支持！');
+                      reject('浏览器不支持！')
+                    }
+                  }
+                }
+            })
+          };
+        })();
+      },300)
+  }
 };
-;
-(function(){
+
+;(function(){
   window.puhui = puhui;
 })();
 

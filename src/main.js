@@ -10,9 +10,9 @@ import 'mint-ui/lib/style.css';
 import 'normalize.css/normalize.css';
 import '@/styles.css';
 import 'vant/lib/vant-css/index.css';
-
+import VConsole  from 'vconsole';
 Vue.config.productionTip = false;
-
+let vConsole = new VConsole();
 Vue.use(vant);
 Vue.use(MintUI);
 Object.keys(filters).forEach(key => {

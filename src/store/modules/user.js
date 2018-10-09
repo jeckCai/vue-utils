@@ -1,7 +1,6 @@
 
 import axios from '@/axios';
 import api from '@/api';
-import { setLocalStorage, getLocalStorage } from '@/utils';
 
 export default {
   state: {
@@ -29,7 +28,6 @@ export default {
     },
     SET_QUESTION(state, {key,value}) {
       state.answeredQuestion = value;
-      setLocalStorage(key, value);
     }
   },
 
