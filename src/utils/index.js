@@ -286,7 +286,7 @@ const puhui={
                           <li></li>
                         </ul>
                         <ul id="city">
-                          <li ></li>
+                          <li></li>
                         </ul>
                         <ul id="area">
                           <li></li>

@@ -14,6 +14,8 @@
       <button @click="requeryFun">requery</button>
     </div>
     <button @click="copyBoard">copytest</button>
+
+    <button v-sina-cc="url">4545454</button>
     <div>
       <label for="Addr" id="areaLabel" class="address">
         <span>所在地区</span>
@@ -21,6 +23,7 @@
       </label>
     </div>
     <img src="./../../assets/1.jpg"  @click="imgdonwLoad" width="100%"/>
+    <keyboard @doned="submit" :quota="currentIndex" :showTag="showPass" @toggle="toggleKeyBoard">a</keyboard>
   </section>
 
   
@@ -30,11 +33,12 @@
 import P from "@/utils/index";
 import "@/utils/utils.css";
 import rest from '@/utils/rest';
-
+import keyborad from '@/components/keyboder'
 export default {
-  components: {},
+  components: {keyborad},
   data() {
     return {
+      showPass:true,
       url:'http://img.zcool.cn/community/0117e2571b8b246ac72538120dd8a4.jpg@1280w_1l_2o_100sh.jpg',
       promotion: {},
       currentIndex: 0,
@@ -123,6 +127,8 @@ export default {
     };
   },
   methods: {
+    submit(){},
+    toggleKeyBoard(){},
     requeryFun(){
       rest.webRequest('ddd/asa',{name:1,age:23}).then(rps=>{console.log(rps)});
       
