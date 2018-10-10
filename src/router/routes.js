@@ -1,6 +1,7 @@
 
 import Dome from '@/views/listView/dome';
 
+
 export default [
   {
     path: "/",

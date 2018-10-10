@@ -23,7 +23,7 @@
       </label>
     </div>
     <img src="./../../assets/1.jpg"  @click="imgdonwLoad" width="100%"/>
-    <keyboard @doned="submit" :quota="currentIndex" :showTag="showPass" @toggle="toggleKeyBoard">a</keyboard>
+    <!-- <keyboard @doned="submit" :quota="currentIndex" :showTag="showPass" @toggle="toggleKeyBoard"></keyboard> -->
   </section>
 
   
@@ -33,9 +33,9 @@
 import P from "@/utils/index";
 import "@/utils/utils.css";
 import rest from '@/utils/rest';
-import keyborad from '@/components/keyboder'
+import keyboard from '@/components/keyboard'
 export default {
-  components: {keyborad},
+  components: {keyboard},
   data() {
     return {
       showPass:true,
@@ -127,8 +127,12 @@ export default {
     };
   },
   methods: {
-    submit(){},
-    toggleKeyBoard(){},
+    submit(){
+
+    },
+    toggleKeyBoard(){
+      this.showPass =!this.showPass;
+    },
     requeryFun(){
       rest.webRequest('ddd/asa',{name:1,age:23}).then(rps=>{console.log(rps)});
       

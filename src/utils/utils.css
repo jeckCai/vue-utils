@@ -234,9 +234,9 @@
     overflow: hidden;
     -webkit-backface-visibility: hidden;
     backface-visibility: hidden;
-    -webkit-transition: .2s;
-    -o-transition: .2s;
-    transition: .2s;
+    -webkit-animation:showModel .5s;
+    -o-animation: showModel .5s;
+    animation: showModel .5s;
 }
 .puhui-msgbox-header {
     padding: 15px 0 0;
@@ -245,8 +245,11 @@
 .puhui-msgbox-close{
     display: inline-block;
     position: absolute;
+    text-align: center;
     top: 1px;
     right: 5px;
+    width: 14px;
+    font-size: 18px;
     font-weight: 100;
     color: #999;
 }
@@ -261,7 +264,7 @@
 .puhui-msgbox-content {
     padding: 10px 20px 15px;
     border-bottom: 1px solid #ddd;
-    min-height: 36px;
+    min-height: 7vh;
     position: relative;
 }
 .puhui-msgbox-input{
@@ -311,7 +314,17 @@
   color: #26a2ff;
   width: 50%;
 }
-
+ @keyframes showModel{
+   0%{
+    width: 55%;
+   }
+   50%{
+   width: 95%;
+   }
+   100%{
+    width: 85%;
+   }
+ }
 
 /* 地址选择器样式 */
 

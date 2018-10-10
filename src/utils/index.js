@@ -4,7 +4,7 @@ import cityResult from './city';
 import Clipboard from 'clipboard';
 
 
-// 省份列表
+
 const puhui={
   /**
    * optins:{
@@ -93,7 +93,7 @@ const puhui={
   /**toast
    * _msg:提示内容
    */ 
-  toast:function(_msg,_time){
+  toast:function(_msg,_time=1500){
     if(!_msg) return ;
     let div = document.createElement('div'), span =`<span class="puhui-toast-text" style="padding-top: 0px;">${_msg}</span>`;
     div.style='padding:10px';
@@ -102,7 +102,7 @@ const puhui={
     document.body.appendChild(div);
     setTimeout(() => {
       document.body.removeChild(document.querySelector('.puhui-toast'));
-    }, _time?_time:1500);
+    }, _time);
   }, 
    /**
      * loading
@@ -218,12 +218,8 @@ const puhui={
         input.addEventListener('keyup', (e)=> {
           if (e.target.value) {
             if (e.target.value.length == opts.length) {
-              // 这里应做接口验证之后再回调回去
-
-              if (this.checkSms()){
                 // 成功再返回true
-                return resolve({ code: e.target.value, iphone: opts.tel, isCheck: true })
-              }  
+                return resolve({ code: e.target.value, iphone: opts.tel, isCheck: true }) 
             }
           }
         });
@@ -243,15 +239,7 @@ const puhui={
     },
     close:function() {
       document.body.removeChild(document.querySelector('#smsBox'))
-    },
-    checkSms:function(){
-      // 验证验证码，
-      return true;
-    },
-    sendSms:function(){
-      // 调用后台接口发送短信验证
-    }
-      
+    }  
   },
   /**
    * 地址选择 
@@ -339,7 +327,7 @@ const puhui={
           }
         })
       }; 
-      // 动画延时bug
+      // 显示页面在加载数据
       setTimeout(() => {
         init(opts);
       }, 300);
@@ -473,8 +461,8 @@ const puhui={
    * optins:{
    *  _type:1 是普通选择 2:联动选择，
    *  _data1:[{id:id,value:value,parentId:parentId:0}];
-   *  _data2:[{id:id,value:value,parentId:parentId}:data1.id];
-   *  _data3:[{id:id,value:value,parentId:parentId:data2.id}]
+   *  _data2:[{id:id,value:value,parentId:parentId}];
+   *  _data3:[{id:id,value:value,parentId:parentId}]
    *  _leve:层级数默认1,2,3,
    *  listData:{}  回显数据
    * }
