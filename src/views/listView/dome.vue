@@ -11,6 +11,7 @@
       <button @click="prick">prick</button>
       <button @click="pickerTime">pickerTime</button>
       <button @click="camearVideo">系统录像</button>
+      <button @click="getCurrent">获取地址</button>
       <button @click="requeryFun">requery</button>
     </div>
     <button @click="copyBoard">copytest</button>
@@ -228,7 +229,23 @@ export default {
     },
     copyBoard(){
       P.copyBoard(new Date).then(rps=>{console.log(rps)});
+    },
+    getCurrent(){
+
+
+      let ifrom =`<ifrom>`;
+      if(window.navigator.geolocation){
+        navigator.geolocation.getCurrentPosition((success)=>{
+          console.log(success);
+        },(err)=>{
+          console.error(`这是获取地址错提示:${err.message}`);
+        })
+      }
     }
+    
+  },
+  created(){
+    // this.getCurrent();
   }
 };
 </script>

@@ -721,7 +721,7 @@ const puhui={
                   catch (e) {
                     try {
                       // 不支持 createObjectURL
-                      var fileReader = new FileReader();
+                      let fileReader = new FileReader();
                       fileReader.onload = function (event) {
                         showPicture.src = event.target.result;
                       };
@@ -737,7 +737,43 @@ const puhui={
           };
         })();
       },300)
-  }
+  },
+  // 加密
+  encrypt: function (value) {
+    let encryptValue = new String,
+      mask, maskValue;
+    for (let i = 0, len = value.length; i < len; i++) {
+      mask = Math.round(Math.random() * 111) + 77;
+      maskValue = value.charCodeAt(i) + mask;
+      mask += i;
+      encryptValue += String.fromCharCode(maskValue, mask);
+    }
+    return encryptValue;
+  },
+
+  // 解密
+  decrypt: function (value) {
+    let decryptValue = new String,
+      k = 0,
+      v, m;
+    let decrypt = function (v, m, i) {
+      v = v.charCodeAt(0);
+      m = m.charCodeAt(0);
+      m -= i;
+      v -= m;
+      return String.fromCharCode(v);
+    }
+    for (let i = 0, len = value.length; i < len; i++) {
+      if (!(i % 2)) {
+        v = value[i];
+      } else {
+        m = value[i];
+        decryptValue += decrypt(v, m, k);
+        k++;
+      }
+    }
+    return decryptValue;
+  },
 };
 
 ;(function(){
